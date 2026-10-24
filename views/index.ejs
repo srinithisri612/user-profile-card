@@ -1,0 +1,417 @@
+<%- include('partials/header') %>
+
+<main class="container">
+  
+  <!-- Hero Section -->
+  <section class="hero-banner">
+    <div class="hero-pill">
+      <span>⚡ Node.js Server-Side Form Processing & SQLite</span>
+    </div>
+    <h1 class="hero-title">
+      Craft Your Dynamic <span class="gradient-text">Profile Card</span>
+    </h1>
+    <p class="hero-subtitle">
+      Enter your professional details, skills, and links. Our server processes, sanitizes, and renders a stunning holographic profile card ready to share.
+    </p>
+  </section>
+
+  <!-- Main Workspace: Form on Left, Live Preview on Right -->
+  <div class="workspace-grid">
+    
+    <!-- Left Column: The Form -->
+    <section class="form-panel" aria-label="Profile Card Generator Form">
+      <div class="panel-header">
+        <h2 class="panel-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+          Profile Information
+        </h2>
+
+        <!-- Quick 1-Click Sample Pre-Fill Buttons -->
+        <div class="samples-wrapper">
+          <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 600;">Prefill:</span>
+          <button type="button" class="sample-badge" data-sample="fullstack">💻 Full-Stack</button>
+          <button type="button" class="sample-badge" data-sample="ai">🤖 AI Lead</button>
+          <button type="button" class="sample-badge" data-sample="design">🎨 UI/UX</button>
+        </div>
+      </div>
+
+      <!-- Form with action="/create-card" method="POST" enctype="multipart/form-data" -->
+      <form id="profile-form" action="/create-card" method="POST" enctype="multipart/form-data">
+        
+        <!-- Section 1: Basic Identity -->
+        <div class="form-section-title">
+          <span>01. Personal Identity</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="full_name">Full Name <span style="color: var(--accent-rose);">*</span></label>
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="full_name" 
+                name="full_name" 
+                class="form-control" 
+                placeholder="e.g. Alex Morgan" 
+                value="Alex Morgan" 
+                required
+                autocomplete="name"
+              >
+            </div>
+            <span class="label-hint">Automatically capitalized & sanitized</span>
+          </div>
+
+          <div class="form-group">
+            <label for="headline">Professional Headline</label>
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="headline" 
+                name="headline" 
+                class="form-control" 
+                placeholder="e.g. Senior Full-Stack Cloud Engineer" 
+                value="Senior Full-Stack Cloud Engineer"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Bio with Word & Char Counter -->
+        <div class="form-group">
+          <label for="bio">Professional Bio & Philosophy</label>
+          <textarea 
+            id="bio" 
+            name="bio" 
+            class="form-control" 
+            rows="3" 
+            placeholder="Tell your story, passion, and what drives you. Include #hashtags if you like!"
+          >Architecting robust distributed systems, high-performance web applications, and resilient developer tools. Obsessed with clean code and minimalist aesthetics. #buildinpublic #webdev</textarea>
+          <div class="textarea-meta">
+            <span id="char-count">194 characters</span>
+            <span id="word-count">24 words • ~12s read</span>
+          </div>
+        </div>
+
+        <!-- Section 2: Skills & Tags -->
+        <div class="form-section-title">
+          <span>02. Core Competencies & Skills</span>
+        </div>
+
+        <div class="form-group">
+          <label for="skills">
+            Skills <span class="label-hint">(Separate with commas or click suggestions below)</span>
+          </label>
+          <input 
+            type="text" 
+            id="skills" 
+            name="skills" 
+            class="form-control" 
+            placeholder="e.g. TypeScript, Node.js, React, Docker, GraphQL, Python" 
+            value="TypeScript, Node.js, React, Docker, SQLite, GraphQL"
+          >
+          
+          <div class="skill-suggestions">
+            <span style="font-size: 0.75rem; color: var(--text-dim); align-self: center; margin-right: 4px;">Click to add:</span>
+            <button type="button" class="suggest-tag">+ Python</button>
+            <button type="button" class="suggest-tag">+ Kubernetes</button>
+            <button type="button" class="suggest-tag">+ AWS</button>
+            <button type="button" class="suggest-tag">+ UI/UX Design</button>
+            <button type="button" class="suggest-tag">+ Tailwind CSS</button>
+            <button type="button" class="suggest-tag">+ Next.js</button>
+            <button type="button" class="suggest-tag">+ Figma</button>
+            <button type="button" class="suggest-tag">+ REST API</button>
+          </div>
+        </div>
+
+        <!-- Section 3: Social & Web Presence -->
+        <div class="form-section-title">
+          <span>03. Social Presence & Links</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="github">GitHub Handle or URL</label>
+            <input 
+              type="text" 
+              id="github" 
+              name="github" 
+              class="form-control" 
+              placeholder="github.com/username or @username" 
+              value="alexmorgan-dev"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="linkedin">LinkedIn Profile</label>
+            <input 
+              type="text" 
+              id="linkedin" 
+              name="linkedin" 
+              class="form-control" 
+              placeholder="linkedin.com/in/username" 
+              value="alex-morgan-tech"
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="twitter">X / Twitter Handle</label>
+            <input 
+              type="text" 
+              id="twitter" 
+              name="twitter" 
+              class="form-control" 
+              placeholder="@handle or x.com/handle" 
+              value="@alex_codes"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="website">Portfolio / Website</label>
+            <input 
+              type="text" 
+              id="website" 
+              name="website" 
+              class="form-control" 
+              placeholder="https://example.dev" 
+              value="https://alexmorgan.dev"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Contact Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="form-control" 
+            placeholder="alex@example.com" 
+            value="alex@nexuslabs.dev"
+          >
+        </div>
+
+        <!-- Section 4: Avatar Selection -->
+        <div class="form-section-title">
+          <span>04. Avatar & Appearance</span>
+        </div>
+
+        <div class="avatar-tabs">
+          <button type="button" class="avatar-tab-btn active" data-tab="dicebear">Avatar Generator</button>
+          <button type="button" class="avatar-tab-btn" data-tab="initials">SVG Initials</button>
+          <button type="button" class="avatar-tab-btn" data-tab="upload">Upload Image</button>
+        </div>
+
+        <input type="hidden" name="avatar_type" id="avatar_type" value="dicebear">
+
+        <!-- Tab 1: DiceBear Avatars -->
+        <div class="avatar-tab-content active" id="tab-dicebear">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="avatar_style">Avatar Art Style</label>
+              <select name="avatar_style" id="avatar_style" class="form-control">
+                <option value="bottts">🤖 Cyber Bottts</option>
+                <option value="adventurer">🧙 Adventurer</option>
+                <option value="lorelei">✨ Lorelei Modern</option>
+                <option value="fun-emoji">😎 Fun Emoji</option>
+                <option value="identicon">🔷 Tech Identicon</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="avatar_seed">Avatar Seed / Seed Word</label>
+              <input type="text" name="avatar_seed" id="avatar_seed" class="form-control" placeholder="Type anything to alter avatar" value="Alex">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Initials -->
+        <div class="avatar-tab-content" id="tab-initials">
+          <div style="background: var(--bg-surface); padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--border-glass); margin-bottom: 16px;">
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              Generates a clean vector SVG avatar badge with your stylized monogram initials and card theme gradient.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab 3: Upload Custom Avatar Image -->
+        <div class="avatar-tab-content" id="tab-upload">
+          <div class="form-group">
+            <div class="file-dropzone" id="avatar-dropzone">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 8px; color: var(--accent-cyan);">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <p style="font-size: 0.9rem; font-weight: 600;">Click to select profile photo or drag & drop</p>
+              <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">PNG, JPG, WebP, SVG up to 4MB</p>
+              <input type="file" name="avatar_file" id="avatar_file" accept="image/*">
+            </div>
+            <div id="file-name-preview" style="font-size: 0.8rem; color: var(--accent-cyan); margin-top: 6px; display: none;"></div>
+          </div>
+        </div>
+
+        <!-- Section 5: Card Theme Selector -->
+        <div class="form-section-title">
+          <span>05. Holographic Theme</span>
+        </div>
+
+        <div class="theme-grid">
+          
+          <label class="theme-card-option">
+            <input type="radio" name="theme" value="dark-glass" checked>
+            <div class="theme-preview-box">
+              <div class="theme-color-dots">
+                <span class="theme-dot" style="background: #06b6d4;"></span>
+                <span class="theme-dot" style="background: #8b5cf6;"></span>
+              </div>
+              <span class="theme-label">Dark Glass</span>
+            </div>
+          </label>
+
+          <label class="theme-card-option">
+            <input type="radio" name="theme" value="cyber-neon">
+            <div class="theme-preview-box">
+              <div class="theme-color-dots">
+                <span class="theme-dot" style="background: #ec4899;"></span>
+                <span class="theme-dot" style="background: #9333ea;"></span>
+              </div>
+              <span class="theme-label">Cyber Neon</span>
+            </div>
+          </label>
+
+          <label class="theme-card-option">
+            <input type="radio" name="theme" value="sunset-ember">
+            <div class="theme-preview-box">
+              <div class="theme-color-dots">
+                <span class="theme-dot" style="background: #f97316;"></span>
+                <span class="theme-dot" style="background: #e11d48;"></span>
+              </div>
+              <span class="theme-label">Sunset Ember</span>
+            </div>
+          </label>
+
+          <label class="theme-card-option">
+            <input type="radio" name="theme" value="emerald-luxe">
+            <div class="theme-preview-box">
+              <div class="theme-color-dots">
+                <span class="theme-dot" style="background: #10b981;"></span>
+                <span class="theme-dot" style="background: #06b6d4;"></span>
+              </div>
+              <span class="theme-label">Emerald Luxe</span>
+            </div>
+          </label>
+
+          <label class="theme-card-option">
+            <input type="radio" name="theme" value="midnight-aurora">
+            <div class="theme-preview-box">
+              <div class="theme-color-dots">
+                <span class="theme-dot" style="background: #3b82f6;"></span>
+                <span class="theme-dot" style="background: #9333ea;"></span>
+              </div>
+              <span class="theme-label">Midnight Aurora</span>
+            </div>
+          </label>
+
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="btn-submit-card">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            Generate & Save Profile Card
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- Right Column: Real-Time Preview Area -->
+    <aside class="preview-sticky" aria-label="Live Profile Card Preview">
+      <div class="preview-container">
+        
+        <div class="preview-header">
+          <div class="live-indicator">
+            <span class="live-pulse"></span>
+            <span>Live Server-Synchronized Preview</span>
+          </div>
+
+          <a href="/gallery" class="btn-secondary" style="padding: 6px 14px; font-size: 0.82rem;">
+            View Gallery
+          </a>
+        </div>
+
+        <!-- Live Preview Target Container -->
+        <div id="live-card-target">
+          <%- include('partials/card', {
+            profile: {
+              full_name: 'Alex Morgan',
+              headline: 'Senior Full-Stack Cloud Engineer',
+              bio: 'Architecting robust distributed systems, high-performance web applications, and resilient developer tools. Obsessed with clean code and minimalist aesthetics. #buildinpublic #webdev',
+              skills: [
+                { name: 'TypeScript', slug: 'typescript', colorClass: 'badge-sky' },
+                { name: 'Node.js', slug: 'nodejs', colorClass: 'badge-violet' },
+                { name: 'React', slug: 'react', colorClass: 'badge-cyan' },
+                { name: 'Docker', slug: 'docker', colorClass: 'badge-emerald' },
+                { name: 'SQLite', slug: 'sqlite', colorClass: 'badge-amber' },
+                { name: 'GraphQL', slug: 'graphql', colorClass: 'badge-rose' }
+              ],
+              social_links: {
+                github: { url: 'https://github.com/alexmorgan-dev', handle: '@alexmorgan-dev' },
+                linkedin: { url: 'https://linkedin.com/in/alex-morgan-tech', handle: 'alex-morgan-tech' },
+                twitter: { url: 'https://x.com/alex_codes', handle: '@alex_codes' },
+                website: { url: 'https://alexmorgan.dev', handle: 'alexmorgan.dev' },
+                email: { url: 'mailto:alex@nexuslabs.dev', handle: 'alex@nexuslabs.dev' }
+              },
+              avatar_url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Alex',
+              theme: 'dark-glass',
+              reading_time: '12s read',
+              word_count: 24,
+              slug: 'preview'
+            },
+            isPreview: true
+          }) %>
+        </div>
+
+        <p class="preview-tip">
+          ✨ Hover over the card to test dynamic 3D perspective tilt & specular lighting.
+        </p>
+
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Bottom Showcase: Recently Created Cards -->
+  <% if (typeof recentProfiles !== 'undefined' && recentProfiles.length > 0) { %>
+    <section style="margin: 48px 0 64px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+        <div>
+          <h2 style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700;">
+            Featured Profile Cards in Database
+          </h2>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Stored securely in SQLite database. Click any card to view its dynamic permalink.
+          </p>
+        </div>
+        <a href="/gallery" class="btn-secondary" style="font-size: 0.85rem;">
+          View All (<%= recentProfiles.length %>+) &rarr;
+        </a>
+      </div>
+
+      <div class="gallery-grid">
+        <% recentProfiles.forEach(cardItem => { %>
+          <%- include('partials/card', { profile: cardItem, isPreview: false }) %>
+        <% }); %>
+      </div>
+    </section>
+  <% } %>
+
+</main>
+
+<%- include('partials/footer') %>

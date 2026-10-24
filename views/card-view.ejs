@@ -1,0 +1,144 @@
+<%- include('partials/header') %>
+
+<main class="container" style="padding: 40px 24px 80px;">
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div style="max-width: 600px; margin: 40px auto; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: var(--radius-lg); padding: 32px; text-align: center;">
+      <h2 style="color: #f87171; font-family: var(--font-heading); margin-bottom: 12px;">Card Not Found</h2>
+      <p style="color: var(--text-muted); margin-bottom: 24px;"><%= error %></p>
+      <a href="/" class="btn-primary">Generate a New Profile Card</a>
+    </div>
+  <% } else if (profile) { %>
+
+    <!-- Success Banner if just created -->
+    <% if (typeof created !== 'undefined' && created) { %>
+      <div style="max-width: 780px; margin: 0 auto 32px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: var(--radius-lg); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 36px; height: 36px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; color: #fff;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h3 style="font-size: 1rem; font-weight: 700; color: #34d399;">Profile Card Successfully Generated!</h3>
+            <p style="font-size: 0.85rem; color: #a7f3d0;">Input sanitized, string manipulation performed, and saved to SQLite.</p>
+          </div>
+        </div>
+
+        <button type="button" class="btn-secondary" id="btn-copy-card-link" data-url="<%= `/p/${profile.slug}` %>" style="font-size: 0.82rem; padding: 8px 16px;">
+          📋 Copy Card Link
+        </button>
+      </div>
+    <% } %>
+
+    <!-- Spotlight Card Presentation Grid -->
+    <div style="display: grid; grid-template-columns: minmax(320px, 480px) 1fr; gap: 40px; max-width: 980px; margin: 0 auto; align-items: start;">
+      
+      <!-- The Generated Card -->
+      <div>
+        <div style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.05em;">
+            Dynamic Card View
+          </span>
+          <span style="font-size: 0.78rem; color: var(--text-dim);">
+            ID: #<%= profile.id %>
+          </span>
+        </div>
+
+        <%- include('partials/card', { profile, isPreview: false }) %>
+
+        <!-- Share & Export Buttons -->
+        <div style="margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="btn-primary" id="btn-copy-link-main" style="flex: 1; font-size: 0.9rem; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            Copy Shareable Link
+          </button>
+          
+          <button type="button" class="btn-secondary" onclick="window.print()" style="font-size: 0.9rem;">
+            🖨️ Print / PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Server Processing Insights & Metadata -->
+      <div>
+        <div style="background: var(--bg-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 28px;">
+          
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-violet)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            Server-Side Processing Details
+          </h3>
+
+          <div style="display: flex; flex-direction: column; gap: 14px; font-size: 0.9rem;">
+            
+            <div style="display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass);">
+              <span style="color: var(--text-muted);">Database Identifier:</span>
+              <strong style="color: #fff;">Record #<%= profile.id %></strong>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass);">
+              <span style="color: var(--text-muted);">Permanent Slug:</span>
+              <code style="color: var(--accent-cyan); background: rgba(6, 182, 212, 0.1); padding: 2px 6px; border-radius: 4px;">/p/<%= profile.slug %></code>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass);">
+              <span style="color: var(--text-muted);">Name Normalization:</span>
+              <span style="color: #34d399;">Title Case Sanitized</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass);">
+              <span style="color: var(--text-muted);">Initials Extracted:</span>
+              <strong style="color: #fff;"><%= profile.initials || 'U' %></strong>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass);">
+              <span style="color: var(--text-muted);">Bio Word Analysis:</span>
+              <span style="color: #fff;"><%= profile.word_count || 0 %> words (<%= profile.reading_time || '10s read' %>)</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass);">
+              <span style="color: var(--text-muted);">Active Theme:</span>
+              <span style="text-transform: capitalize; color: var(--accent-fuchsia);"><%= (profile.theme || 'dark-glass').replace('-', ' ') %></span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass);">
+              <span style="color: var(--text-muted);">Created Timestamp:</span>
+              <span style="color: var(--text-dim);"><%= profile.created_at || 'Just now' %></span>
+            </div>
+
+          </div>
+
+          <!-- Actions: Generate Another & Delete -->
+          <div style="margin-top: 28px; display: flex; flex-direction: column; gap: 10px;">
+            <a href="/" class="btn-primary" style="justify-content: center; text-align: center;">
+              ✨ Generate Another Card
+            </a>
+
+            <div style="display: flex; gap: 10px;">
+              <a href="/gallery" class="btn-secondary" style="flex: 1; justify-content: center; text-align: center;">
+                Browse Gallery
+              </a>
+
+              <form action="/api/profiles/<%= profile.id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this profile card from the database?');" style="margin: 0;">
+                <button type="submit" class="btn-secondary" style="color: #f87171; border-color: rgba(239, 68, 68, 0.3);">
+                  Delete Card
+                </button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  <% } %>
+
+</main>
+
+<%- include('partials/footer') %>
